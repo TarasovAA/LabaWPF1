@@ -12,29 +12,54 @@ namespace WpfLaba1.Models
 {
     public class JSONRecords:ISource
     {
-        public int Count => throw new NotImplementedException();
+        public int Count => heroList.Count;
 
-        public ReadOnlyObservableCollection<Hero> HeroesList => throw new NotImplementedException();
+        public ReadOnlyObservableCollection<Hero> HeroesList { get; private set; }
         private ObservableCollection<Hero> heroList;
-       
+        private string path;
+
         public JSONRecords()
         {
             heroList = new ObservableCollection<Hero>();
-           
-            string fileContent = File.ReadAllText(@"C:\Users\taras\source\repos\WpfLaba1\WpfLaba1\jsonSource.json");
-            List<Hero> listJson = JsonConvert.DeserializeObject<List<Hero>>(fileContent);
+            path = @"C:\Users\taras\source\repos\WpfLaba1\WpfLaba1\jsonSource.json";
+            string fileContent = null;
+            if (File.Exists(path))
+            {
+                fileContent = File.ReadAllText(path);
+            }
+            else
+            {
+                File.Create(path);
+            }
+
+            if (!string.IsNullOrEmpty(fileContent))
+            {
+                heroList = JsonConvert.DeserializeObject<ObservableCollection<Hero>>(fileContent);
+                HeroesList = new ReadOnlyObservableCollection<Hero>(heroList);
+            }
+            else
+            {
+                heroList = new ObservableCollection<Hero>();
+                HeroesList = new ReadOnlyObservableCollection<Hero>(heroList);
+            }
+        }
+
+        public override string ToString()
+        {
+            return "JSONRecords";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool Add(Hero hero)
         {
-            throw new NotImplementedException();
+            heroList.Add(hero);
+            return true;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void onPropertyChanged(string prop = "")
@@ -44,12 +69,14 @@ namespace WpfLaba1.Models
 
         public bool Remove(Hero hero)
         {
-            throw new NotImplementedException();
+            heroList.Remove(hero);
+            return false;
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            string json = JsonConvert.SerializeObject(heroList, Formatting.Indented);
+            File.WriteAllText(path, json);
         }
     }
 }

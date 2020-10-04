@@ -28,6 +28,7 @@ namespace WpfLaba1.ViewModels
             {
                 source = value;
                 onPropertyChanged("SelectedSource");
+                onPropertyChanged("HeroesList");
             }
         }
         public List<ISource> DataSources { get; set; }
@@ -70,7 +71,7 @@ namespace WpfLaba1.ViewModels
 
         public ApplicationViewModel()
         {
-            DataSources = new List<ISource> { new BDmssql(), new TextRecords() };
+            DataSources = new List<ISource> { new BDmssql(), new JSONRecords() };
             insertHeroes = new List<Hero>();
             Source = DataSources[0];
         }
@@ -83,7 +84,10 @@ namespace WpfLaba1.ViewModels
                 return updateCommand ?? (updateCommand = new RelayCommand(
                     obj =>
                     {
-                        source.SaveChanges();
+                        foreach(ISource s in DataSources)
+                        {
+                            s.SaveChanges();
+                        }
                     }));
             }
         }

@@ -17,14 +17,33 @@ namespace WpfLaba1.Models
         private ObservableCollection<Hero> heroList;
         string path = @"C:\Users\taras\source\repos\WpfLaba1\WpfLaba1";
 
-        public TextRecords()
-        {
-            heroList = new ObservableCollection<Hero>();
-            using (FileStream fs = new FileStream($"{path}/FileSource.txt", FileMode.OpenOrCreate))
-            {
-                
-            }
-        }
+        //public TextRecords()
+        //{
+        //    heroList = new ObservableCollection<Hero>();
+           
+        //    using (StreamReader fs = new StreamReader($"{path}/FileSource.txt"))
+        //    {
+        //        string HeroLine = fs.ReadLine();
+               
+        //    }
+
+        //}
+
+        //private bool TurnIntoAHero(string str, out Hero hero)
+        //{
+        //    if (!string.IsNullOrEmpty(str))
+        //    {
+        //        try
+        //        {
+        //            str
+        //        }
+        //    }
+        //}
+
+        //private string TurnIntoAText(Hero hero)
+        //{
+            
+        //}
 
         public override string ToString()
         {
