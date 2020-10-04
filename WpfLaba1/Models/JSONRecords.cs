@@ -22,7 +22,7 @@ namespace WpfLaba1.Models
             heroList = new ObservableCollection<Hero>();
            
             string fileContent = File.ReadAllText(@"C:\Users\taras\source\repos\WpfLaba1\WpfLaba1\jsonSource.json");
-            //List<Hero> listJson = JsonConvert.DeserializeObject<List<Hero>>(fileContent);
+            List<Hero> listJson = JsonConvert.DeserializeObject<List<Hero>>(fileContent);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
