@@ -13,7 +13,7 @@ namespace WpfLaba1.Models
     public class JSONRecords:ISource
     {
         public int Count => heroList.Count;
-
+       
         public ReadOnlyObservableCollection<Hero> HeroesList { get; private set; }
         private ObservableCollection<Hero> heroList;
         private string path;
@@ -21,7 +21,7 @@ namespace WpfLaba1.Models
         public JSONRecords()
         {
             heroList = new ObservableCollection<Hero>();
-            path = @"C:\Users\taras\source\repos\WpfLaba1\WpfLaba1\jsonSource.json";
+            path = Directory.GetCurrentDirectory()+"/jsonSource.json";
             string fileContent = null;
             if (File.Exists(path))
             {
