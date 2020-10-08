@@ -70,5 +70,10 @@ namespace WpfLaba1.Models
             }
             return false;
         }
+
+        public bool Change(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

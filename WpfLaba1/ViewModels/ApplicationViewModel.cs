@@ -39,6 +39,8 @@ namespace WpfLaba1.ViewModels
 
         List<Hero> insertHeroes;
 
+        //Hero ChabgingHero;
+
         IList selectedHeroes;
 
         public IList SelectedHeroes
@@ -54,27 +56,42 @@ namespace WpfLaba1.ViewModels
             }
         }
 
-        //public Hero SelectedHero
-        //{
-        //    get
-        //    {
-        //        int[] a = { };
-        //        int e =a.Length;
-        //        return selectedHero;
-        //    }
-        //    set
-        //    {
-        //        selectedHero = value;
-        //        onPropertyChanged("SelectedHero");
-        //    }
-        //}
+        Hero selectedHero;
+        public Hero SelectedHero
+        {
+            get
+            {
+                return selectedHero;
+            }
+            set
+            {
+                selectedHero = value;
+                onPropertyChanged("SelectedHero");
+            }
+        }
+
+        Hero newHero;
+        public Hero NewHero
+        {
+            get
+            {
+                return newHero;
+            }
+            set
+            {
+                selectedHero = newHero;
+                onPropertyChanged("newHero");
+            }
+        }
 
         public ApplicationViewModel()
         {
             DataSources = new List<ISource> { new BDmssql(), new JSONRecords() };
             insertHeroes = new List<Hero>();
             Source = DataSources[0];
+            currentWindow = new ViewHeroes();
         }
+        public Window currentWindow;
 
         RelayCommand updateCommand;
         public RelayCommand UpdateCommand
@@ -92,49 +109,7 @@ namespace WpfLaba1.ViewModels
             }
         }
 
-       RelayCommand addCommand;
-       public RelayCommand AddCommand
-        {
-            get
-            {
-                return addCommand ?? (addCommand = new RelayCommand(
-                    obj =>
-                    {
-                        ViewAdd addWindow;
-                        bool nextHero = false;
-                        Hero hero = null;
-                        do
-                        {
-                            addWindow = new ViewAdd();
-                            addWindow.ShowDialog();
-                            try
-                            {
-                                hero = new Hero() { Name = addWindow.HeroName, Hp = Int32.Parse(addWindow.HeroHP), Energy = Int32.Parse(addWindow.HeroEnergy), Skills = addWindow.HeroSkill };
-                            }
-                            catch(Exception Error)
-                            {
-                                MessageBox.Show(Error.ToString());
-                                continue;
-                            }
-                            var results = new List<ValidationResult>();
-                            var context = new ValidationContext(hero);
-                            if (!Validator.TryValidateObject(hero, context, results, true))
-                            {
-                                string Error = "";
-                                foreach (var error in results)
-                                {
-                                    Error += error.ToString();
-                                }
-                                MessageBox.Show(Error);
-                                continue;
-                            }
-                            nextHero = true;
-                        }
-                        while (!nextHero);
-                        source.Add(hero);
-                    }));
-            }
-        }
+      
 
         private void CloseCommanddb()
         {
@@ -224,6 +199,83 @@ namespace WpfLaba1.ViewModels
                         }
                         insertHeroes.Clear();
                     }, (obj) => insertHeroes.Count > 0));
+            }
+        }
+
+        RelayCommand beginChangeCommand;
+        public RelayCommand BeginChangeCommand
+        {
+            get
+            {
+                return beginChangeCommand ?? (beginChangeCommand = new RelayCommand(
+                    obj =>
+                    {
+                        currentWindow = new ChangeHero();
+                        currentWindow.DataContext = this;
+                        currentWindow.ShowDialog();
+
+                    }, (obj) => selectedHero != null));
+            }
+        }
+
+
+        RelayCommand finishChangeCommand;
+        public RelayCommand FinishChangeCommand
+        {
+            get
+            {
+                return finishChangeCommand ?? (finishChangeCommand = new RelayCommand(
+                    obj =>
+                    {
+                        currentWindow.Close();
+                        //(obj as Hero)
+                    }, obj => {
+                        var results = new List<ValidationResult>();
+                        var context = new ValidationContext(selectedHero);
+                        if (!Validator.TryValidateObject(selectedHero, context, results, true))
+                        {
+                            return false;
+                        }
+                        return true;
+                    }));
+            }
+        }
+        RelayCommand startAddCommand;
+        public RelayCommand StartAddCommand
+        {
+            get
+            {
+                return startAddCommand ?? (startAddCommand = new RelayCommand(
+                    obj =>
+                    {
+                        newHero = new Hero();
+                        currentWindow = new ViewAdd();
+                        currentWindow.DataContext = this;
+                        currentWindow.ShowDialog();
+                    }));
+            }
+        }
+
+        RelayCommand finishAddCommand;
+        public RelayCommand FinishAddCommand
+        {
+            get
+            {
+                return finishAddCommand ?? (finishAddCommand = new RelayCommand(
+                    obj =>
+                    {
+                        source.Add(newHero);
+                        currentWindow.Close();
+                    }, obj =>
+                    {
+                        var results = new List<ValidationResult>();
+                        var context = new ValidationContext(newHero);
+                        if (!Validator.TryValidateObject(newHero, context, results, true))
+                        {
+                            return false;
+                        }
+                        return true;
+                    }));
             }
         }
 

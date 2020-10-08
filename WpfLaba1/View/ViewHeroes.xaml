@@ -25,7 +25,8 @@
             <Button Content="Данные" />
         </StackPanel>
         <local:AdvancedDataGrid Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Extended" SelectionUnit="FullRow"
-                                ItemsSource="{Binding HeroesList}" 
+                                ItemsSource="{Binding HeroesList}"
+                                SelectedItem="{Binding SelectedHero}"
                                 SelectedItemsList="{Binding SelectedHeroes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 x:Name="gridGame" IsReadOnly="True" >
             <DataGrid.Columns>
@@ -43,9 +44,9 @@
             </DataGrid.ContextMenu>
         </local:AdvancedDataGrid>
         <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Добавить" Command="{Binding AddCommand}" />
+            <Button Content="Добавить" Command="{Binding StartAddCommand}" />
             <Button Command="{Binding UpdateCommand}" Content="Обновить" />
-            <Button Command="{Binding ChangeCommand}"  Content="Изменить" />
+            <Button Command="{Binding BeginChangeCommand}" CommandParameter="{Binding SelectedHeroes}"  Content="Изменить" />
             <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedHeroes}"  Content="Удалить"/>
             
         </StackPanel>

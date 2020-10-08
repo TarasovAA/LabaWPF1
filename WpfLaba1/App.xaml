@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WpfLaba1"
-             xmlns:v="clr-namespace:WpfLaba1.View"
-             StartupUri="View/ViewHeroes.xaml">
+             xmlns:v="clr-namespace:WpfLaba1.View">
     <Application.Resources>
          
     </Application.Resources>

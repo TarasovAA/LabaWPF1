@@ -11,35 +11,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfLaba1.Models;
 
 namespace WpfLaba1.View
 {
     /// <summary>
-    /// Логика взаимодействия для ViewAdd.xaml
+    /// Логика взаимодействия для ChangeHero.xaml
     /// </summary>
-    public partial class ViewAdd : Window
+    public partial class ChangeHero : Window
     {
-        public ViewAdd()
+        //public bool isClickButton = false;
+        public ChangeHero()
         {
             InitializeComponent();
+            //this.Name.Text = name;
+            //this.Hp.Text = hp.ToString();
+            //this.Energy.Text = energy.ToString();
+            //this.Skills.Text = skills.ToString();
         }
-
-        //public string HeroName;
-        //public string HeroHP;
-        //public string HeroEnergy;
-        //public string HeroSkill;
-        //public bool isAddButtonWasPressed = false;
 
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
-        //    HeroName = Name.Text;
-        //    HeroHP = HP.Text;
-        //    HeroEnergy = Energy.Text;
-        //    HeroSkill = Skills.Text;
-        //    isAddButtonWasPressed = true;
+        //    isClickButton = true;
         //    this.Close();
         //}
-
-
     }
 }

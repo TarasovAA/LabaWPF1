@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:WpfLaba1.View"
         mc:Ignorable="d"
         Title="ViewAdd" Height="450" Width="400">
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid DataContext="{Binding NewHero}" >
+        <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -19,16 +23,15 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label Content="Name" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="HP" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="HP" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <Label Content="Energy" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="Skills" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBox x:Name="Name" Margin="10" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="HP"  Margin="10" Grid.Column="1" Grid.Row="1"  VerticalAlignment="Center"/>
-        <TextBox x:Name="Energy"  Margin="10" Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center"/>
-        <TextBox x:Name="Skills"  Margin="10" Grid.Column="1" Grid.Row="3"  />
-        <Grid Grid.Row="4" Grid.ColumnSpan="2">
-            <Button Height="25" Width="100" Content="Создать" Click="Button_Click"/>
-        </Grid>
+            <TextBox x:Name="Name" Margin="10" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="HP"  Margin="10" Grid.Column="1" Grid.Row="1"  VerticalAlignment="Center" Text="{Binding Hp, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="Energy"  Margin="10" Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center" Text="{Binding Energy, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="Skills"  Margin="10" Grid.Column="1" Grid.Row="3"  Text="{Binding Skills, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+        <Button Grid.Row="1" Height="25" Width="100" Margin="25" Content="Создать" Command="{Binding FinishAddCommand}" CommandParameter="{Binding NewHero}" />
     </Grid>
 </Window>

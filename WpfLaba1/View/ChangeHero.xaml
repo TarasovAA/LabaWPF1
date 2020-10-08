@@ -1,0 +1,75 @@
+﻿<Window x:Class="WpfLaba1.View.ChangeHero"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfLaba1.View"
+        mc:Ignorable="d"
+        Title="ChangeHero" Height="200" Width="600" ResizeMode="NoResize"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid DataContext="{Binding SelectedHero}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label VerticalAlignment="Center" Content="Name: " />
+                <TextBox VerticalAlignment="Center" x:Name="Name" Grid.Column="1" Margin="5" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" >
+
+                </TextBox>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label VerticalAlignment="Center" Content="Hp: " />
+                <TextBox VerticalAlignment="Center" x:Name="Hp" Grid.Column="1" Margin="5" Text="{Binding Hp, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label VerticalAlignment="Center" Content="Energy: " />
+                <TextBox VerticalAlignment="Center" x:Name="Energy" Grid.Column="1" Margin="5" Text="{Binding Energy, UpdateSourceTrigger=PropertyChanged}" >
+
+                </TextBox>
+            </Grid>
+
+
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label VerticalAlignment="Center" Content="Skills: " />
+                <TextBox VerticalAlignment="Center"  Grid.Row="1" Margin="5"  Height="80" TextWrapping="Wrap"
+             Text="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
+             AcceptsReturn="True"
+             VerticalScrollBarVisibility="Visible" x:Name="Skills" />
+
+
+
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="4" >
+            <Button Content="Изменить" Width="120" Height="30" Command="{Binding FinishChangeCommand}" CommandParameter="{Binding SelectedHero}" />
+        </Grid>
+    </Grid>
+</Window>

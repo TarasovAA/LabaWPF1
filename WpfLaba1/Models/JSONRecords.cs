@@ -78,5 +78,10 @@ namespace WpfLaba1.Models
             string json = JsonConvert.SerializeObject(heroList, Formatting.Indented);
             File.WriteAllText(path, json);
         }
+
+        public bool Change(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

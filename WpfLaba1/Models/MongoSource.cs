@@ -13,20 +13,26 @@ namespace WpfLaba1.Models
     public class MongoSource : ISource
     {
         public int Count => throw new NotImplementedException();
+        IMongoCollection<Hero> collection;
 
         public MongoSource()
         {
             string connectionString = "mongodb://localhost:27017";
             MongoClient client = new MongoClient(connectionString);
-            
+            var database = client.GetDatabase("HeroesMongoDB");
+            collection = database.GetCollection<Hero>("Heroes");
+            heroesList = new ObservableCollection<Hero>(collection.Find((_ => true)).ToList<Hero>());
+            HeroesList = new ReadOnlyObservableCollection<Hero>(heroesList);
         }
-        public ReadOnlyObservableCollection<Hero> HeroesList => throw new NotImplementedException();
+        public ReadOnlyObservableCollection<Hero> HeroesList { get; private set; }
+        private ObservableCollection<Hero> heroesList;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool Add(Hero hero)
         {
-            throw new NotImplementedException();
+            heroesList.Add(hero);
+            return true;
         }
 
         public void Dispose()
@@ -41,10 +47,16 @@ namespace WpfLaba1.Models
 
         public bool Remove(Hero hero)
         {
-            throw new NotImplementedException();
+            heroesList.Remove(hero);
+            return false;
         }
 
         public void SaveChanges()
+        {
+            
+        }
+
+        public bool Change(Hero hero)
         {
             throw new NotImplementedException();
         }

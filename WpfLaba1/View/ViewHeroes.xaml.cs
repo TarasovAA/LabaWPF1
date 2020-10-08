@@ -26,9 +26,7 @@ namespace WpfLaba1.View
         public ViewHeroes()
         {
             InitializeComponent();
-            ApplicationViewModel av = new ApplicationViewModel();
-            DataContext = av;
-            this.Closing += (s, e) => { av.onPropertyChanged("ClosingWindow"); };
+            //this.Closing += (s, e) => { av.onPropertyChanged("ClosingWindow"); };
         }
        
     }

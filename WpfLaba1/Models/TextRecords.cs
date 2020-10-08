@@ -75,5 +75,10 @@ namespace WpfLaba1.Models
         {
             throw new NotImplementedException();
         }
+
+        public bool Change(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

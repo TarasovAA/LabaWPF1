@@ -8,14 +8,14 @@ using System.Collections.ObjectModel;
 
 namespace WpfLaba1.Models
 {
-    public interface ISource: INotifyPropertyChanged
+    public interface ISource
     {
         int Count { get; }
         void SaveChanges();
         void Dispose();
+        bool Change(Hero hero);
         bool Remove(Hero hero);
         bool Add(Hero hero);
         ReadOnlyObservableCollection<Hero> HeroesList { get; }
-        void onPropertyChanged(string prop = "");
     }
 }
