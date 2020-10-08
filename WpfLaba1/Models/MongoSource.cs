@@ -10,8 +10,9 @@ using MongoDB.Driver;
 
 namespace WpfLaba1.Models
 {
-    public class MongoSource : ISource
+    public class MongoSource : ISource // Модель для работы с MongoDB ( ещё не реализованно )
     {
+        //TODO: Дореализовать(пока не обязательно)
         public int Count => throw new NotImplementedException();
         IMongoCollection<Hero> collection;
 

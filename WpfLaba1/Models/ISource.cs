@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace WpfLaba1.Models
 {
-    public interface ISource
+    public interface ISource // интерфейс взаимодействия для модели-источника
     {
         int Count { get; }
         void SaveChanges();

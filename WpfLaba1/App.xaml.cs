@@ -19,7 +19,7 @@ namespace WpfLaba1
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+            base.OnStartup(e); //TODO: Немного переделать ( всю должно быть главной вьюМоделе)
             new ViewHeroes() { DataContext = av }.Show();
             av.onPropertyChanged("ClosingWindow");
         }

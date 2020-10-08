@@ -7,9 +7,9 @@ using System.Windows.Input;
 
 namespace WpfLaba1.ViewModels
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : ICommand // для реализация модуля MVVM
     {
-        private Action<object> execute;
+        private Action<object> execute;  
         private Func<object, bool> canExecute;
 
         public event EventHandler CanExecuteChanged

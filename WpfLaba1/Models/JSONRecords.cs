@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace WpfLaba1.Models
 {
-    public class JSONRecords:ISource
+    public class JSONRecords:ISource // модель для источника в формате файла json
     {
         public int Count => heroList.Count;
        

@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace WpfLaba1.Models
 {
-    public class BDmssql: ISource
+    public class BDmssql: ISource //модел для sql данных
     {
         HeroesContext bd;
         public ReadOnlyObservableCollection<Hero> HeroesList { get; private set; }

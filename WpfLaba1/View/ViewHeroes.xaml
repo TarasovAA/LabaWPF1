@@ -30,10 +30,10 @@
                                 SelectedItemsList="{Binding SelectedHeroes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 x:Name="gridGame" IsReadOnly="True" >
             <DataGrid.Columns>
-                <DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Name" />
-                <DataGridTextColumn Width="Auto" Binding="{Binding Hp}" Header="Hd" />
-                <DataGridTextColumn Width="Auto" Binding="{Binding Energy}" Header="Energy"/>
-                <DataGridTextColumn Width="*" Binding="{Binding Skills}" Header="Skills"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Header="Name" />
+                <DataGridTextColumn Width="*" Binding="{Binding Hp, UpdateSourceTrigger=PropertyChanged}" Header="Hd" />
+                <DataGridTextColumn Width="*" Binding="{Binding Energy, UpdateSourceTrigger=PropertyChanged}" Header="Energy"/>
+                <DataGridTextColumn Width="4*" Binding="{Binding Skills, UpdateSourceTrigger=PropertyChanged}" Header="Skills"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

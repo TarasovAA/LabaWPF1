@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid DataContext="{Binding SelectedHero}">
+        <Grid DataContext="{Binding ChangingHero}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -69,7 +69,7 @@
         </Grid>
 
         <Grid Grid.Row="1" Grid.ColumnSpan="4" >
-            <Button Content="Изменить" Width="120" Height="30" Command="{Binding FinishChangeCommand}" CommandParameter="{Binding SelectedHero}" />
+            <Button Content="Изменить" Width="120" Height="30" Command="{Binding FinishChangeCommand}" CommandParameter="{Binding ChangingHero}" />
         </Grid>
     </Grid>
 </Window>

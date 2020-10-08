@@ -9,8 +9,9 @@ using System.IO;
 
 namespace WpfLaba1.Models
 {
-    public class TextRecords : ISource
+    public class TextRecords : ISource // модель для работы с текстовыми файами
     {
+        //TODO: Дореализовать(пока не обязательно)
         public int Count => throw new NotImplementedException();
 
         public ReadOnlyObservableCollection<Hero> HeroesList => throw new NotImplementedException();

@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace WpfLaba1.View
 {
-    public class AdvancedDataGrid:DataGrid
+    public class AdvancedDataGrid:DataGrid //нужно для захвата нескольких элементов при удалении, вырезании и копипасты
     {
         public AdvancedDataGrid()
         {

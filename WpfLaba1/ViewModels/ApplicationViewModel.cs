@@ -17,7 +17,8 @@ namespace WpfLaba1.ViewModels
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         //Hero selectedHero;
-        ISource source;
+        //Главная view-модель
+        ISource source; // выбранный на данный момент источник данных
         public ISource Source
         {
             get
@@ -28,22 +29,23 @@ namespace WpfLaba1.ViewModels
             {
                 source = value;
                 onPropertyChanged("SelectedSource");
-                onPropertyChanged("HeroesList");
+                onPropertyChanged("HeroesList"); //обговляет отоброжения списка
             }
         }
-        public List<ISource> DataSources { get; set; }
+        public List<ISource> DataSources { get; set; } // Список всех источников данных ( на данный момент реализованы база данных из mssql сервера и источник данных, списанный из json файла)
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        
 
-        public ReadOnlyObservableCollection<Hero> HeroesList => source.HeroesList;
+        public ReadOnlyObservableCollection<Hero> HeroesList => source.HeroesList; //пробросс к списку данных из источника
 
-        List<Hero> insertHeroes;
+        // нужно для реализации множественной копипасты из одного источника данных в другой
+        List<Hero> insertHeroes; // вырезанные элементы
 
         //Hero ChabgingHero;
 
-        IList selectedHeroes;
+        IList selectedHeroes; // нужно для реализации множественной копипасты из одного источника данных в другой
 
-        public IList SelectedHeroes
+        public IList SelectedHeroes // собственно считыные с помощью биндинга элементы
         {
             get
             {
@@ -56,7 +58,8 @@ namespace WpfLaba1.ViewModels
             }
         }
 
-        Hero selectedHero;
+
+        Hero selectedHero; // выделенный первый элемент
         public Hero SelectedHero
         {
             get
@@ -70,7 +73,7 @@ namespace WpfLaba1.ViewModels
             }
         }
 
-        Hero newHero;
+        Hero newHero; // на данный момент рудимертарный элемент, который возможно ещё пригодиться ( удалить, если нет )
         public Hero NewHero
         {
             get
@@ -84,17 +87,20 @@ namespace WpfLaba1.ViewModels
             }
         }
 
+        //Реализация паттерна стратегия ( частично это больше Фабричный метод чем стратегия)
         public ApplicationViewModel()
         {
-            DataSources = new List<ISource> { new BDmssql(), new JSONRecords() };
+            DataSources = new List<ISource> { new BDmssql(), new JSONRecords() }; //здесь можно добавлять разные источники данных для работы со списком элементов Hero. Каждый источник должен реализовывать интерфейс ISource.
             insertHeroes = new List<Hero>();
             Source = DataSources[0];
             currentWindow = new ViewHeroes();
         }
-        public Window currentWindow;
+        public Window currentWindow; // на данный момент рудимент, но может пригодиться в дальнейшем
 
-        RelayCommand updateCommand;
-        public RelayCommand UpdateCommand
+
+        //Комманды для взаимодействия с моделью и вьюшкой
+        RelayCommand updateCommand;  //
+        public RelayCommand UpdateCommand // обработчик кнопки "Обновить". Вносит изменения во все имеющиеся источники. 
         {
             get
             {
@@ -109,16 +115,16 @@ namespace WpfLaba1.ViewModels
             }
         }
 
-      
-
-        private void CloseCommanddb()
+     
+        private void CloseCommanddb() // пока не реализованно 
         {
             source.Dispose();
         }
 
-
-        RelayCommand deleteCommand;
-        public RelayCommand DeleteCommand
+        //реализация инструментария для копипасты + удаление, и вырезания
+        #region
+        RelayCommand deleteCommand;  
+        public RelayCommand DeleteCommand 
         {
             get
             {
@@ -140,6 +146,7 @@ namespace WpfLaba1.ViewModels
             }
         }
 
+        
         RelayCommand copyCommand;
         public RelayCommand CopyCommand
         {
@@ -159,8 +166,9 @@ namespace WpfLaba1.ViewModels
                     }, (obj) => selectedHeroes != null && selectedHeroes.Count > 0));
             }
         }
+
         RelayCommand cutCommand;
-        public RelayCommand CutCommand
+        public RelayCommand CutCommand 
         {
             get
             {
@@ -201,7 +209,11 @@ namespace WpfLaba1.ViewModels
                     }, (obj) => insertHeroes.Count > 0));
             }
         }
+        #endregion
 
+
+        //добавление нового элемента ( недореализованно до конца: меняет файл при обычном закрытии )
+        // TODO: дореализовать данный сегмент с закрытие, + понять, почему меняется порядок изменённого элемента!!! ( Доделать побыстрее!)
         RelayCommand beginChangeCommand;
         public RelayCommand BeginChangeCommand
         {
@@ -210,76 +222,79 @@ namespace WpfLaba1.ViewModels
                 return beginChangeCommand ?? (beginChangeCommand = new RelayCommand(
                     obj =>
                     {
-                        currentWindow = new ChangeHero();
-                        currentWindow.DataContext = this;
-                        currentWindow.ShowDialog();
+                        new ChangeHeroModelViewModel(new ChangeHero(), SelectedHero); //создаётся ViewModel для нового окна по изменеию объекта
+                        
 
                     }, (obj) => selectedHero != null));
             }
         }
 
+        // содержимое ChangeHeroModelViewModel, на данный момент рудимент, однако не буду удалять, пока не доделаю ChangeHeroModelViewModel
+        //RelayCommand finishChangeCommand;
+        //public RelayCommand FinishChangeCommand
+        //{
+        //    get
+        //    {
+        //        return finishChangeCommand ?? (finishChangeCommand = new RelayCommand(
+        //            obj =>
+        //            {
+        //                currentWindow.Close();
+        //                //(obj as Hero)
+        //            }, obj => {
 
-        RelayCommand finishChangeCommand;
-        public RelayCommand FinishChangeCommand
-        {
-            get
-            {
-                return finishChangeCommand ?? (finishChangeCommand = new RelayCommand(
-                    obj =>
-                    {
-                        currentWindow.Close();
-                        //(obj as Hero)
-                    }, obj => {
-                        var results = new List<ValidationResult>();
-                        var context = new ValidationContext(selectedHero);
-                        if (!Validator.TryValidateObject(selectedHero, context, results, true))
-                        {
-                            return false;
-                        }
-                        return true;
-                    }));
-            }
-        }
+        //                var results = new List<ValidationResult>();
+        //                var context = new ValidationContext(selectedHero);
+        //                if (!Validator.TryValidateObject(selectedHero, context, results, true))
+        //                {
+        //                    return false;
+        //                }
+        //                return true;
+        //            }));
+        //    }
+        //}
+
+
         RelayCommand startAddCommand;
-        public RelayCommand StartAddCommand
+        public RelayCommand StartAddCommand //Добавление нового элемента
         {
             get
             {
                 return startAddCommand ?? (startAddCommand = new RelayCommand(
                     obj =>
                     {
-                        newHero = new Hero();
-                        currentWindow = new ViewAdd();
-                        currentWindow.DataContext = this;
-                        currentWindow.ShowDialog();
+                        //новая вьюмодель с вьюшкой в конструкторе
+                        source.Add((new AddViewModel(new ViewAdd()).NewHero)); //куонструкция прикольная, но нужно потестить на ошибки ( в старом виде ошибок не было)
                     }));
             }
         }
 
-        RelayCommand finishAddCommand;
-        public RelayCommand FinishAddCommand
-        {
-            get
-            {
-                return finishAddCommand ?? (finishAddCommand = new RelayCommand(
-                    obj =>
-                    {
-                        source.Add(newHero);
-                        currentWindow.Close();
-                    }, obj =>
-                    {
-                        var results = new List<ValidationResult>();
-                        var context = new ValidationContext(newHero);
-                        if (!Validator.TryValidateObject(newHero, context, results, true))
-                        {
-                            return false;
-                        }
-                        return true;
-                    }));
-            }
-        }
+        //тоже свмое, что и с ChangeHeroModelViewModel
+        //RelayCommand finishAddCommand;
+        //public RelayCommand FinishAddCommand
+        //{
+        //    get
+        //    {
+        //        return finishAddCommand ?? (finishAddCommand = new RelayCommand(
+        //            obj =>
+        //            {
+        //                source.Add(newHero);
+        //                currentWindow.Close();
+        //            }, obj =>
+        //            {
+        //                var results = new List<ValidationResult>();
+        //                var context = new ValidationContext(newHero);
+        //                if (!Validator.TryValidateObject(newHero, context, results, true))
+        //                {
+        //                    return false;
+        //                }
+        //                return true;
+        //            }));
+        //    }
+        //}
 
-        public void onPropertyChanged(string prop="")
+
+        public event PropertyChangedEventHandler PropertyChanged; // релация INotifyPropertyChanged
+        public void onPropertyChanged(string prop="") //
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
